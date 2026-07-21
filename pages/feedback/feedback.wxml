@@ -1,0 +1,41 @@
+<!--pages/feedback/feedback.wxml-->
+<view class="container">
+  <view class="feedback-card">
+    <view class="email-section">
+      <text class="email-label">联系邮箱</text>
+      <view class="email-row" bindtap="copyEmail">
+        <text class="email-address">hzxshi117a@outlook.com</text>
+        <view class="copy-btn">
+          <text class="copy-text">复制</text>
+        </view>
+      </view>
+    </view>
+    <view class="action-btn" bindtap="sendEmail">
+      <text class="action-text">📧 复制邮箱并发送反馈</text>
+    </view>
+  </view>
+
+  <view class="tips-card">
+    <view class="tips-title">💡 反馈小贴士</view>
+    <view class="tips-item">
+      <text class="tips-icon">📸</text>
+      <text class="tips-text">如果遇到问题，附上错误截图或录屏能帮助作者更快定位原因</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-icon">📝</text>
+      <text class="tips-text">详细描述操作步骤和预期结果，比如「导入 XLSX 后时间显示不对」</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-icon">📎</text>
+      <text class="tips-text">如果有问题文件样本（脱敏后），可以作为附件一并发送</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-icon">💬</text>
+      <text class="tips-text">功能建议也欢迎反馈，作者会认真阅读每一条消息</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">感谢您使用简记账 🙏</text>
+  </view>
+</view>

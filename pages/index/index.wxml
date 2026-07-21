@@ -1,0 +1,82 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <view class="balance-card">
+    <view class="balance-info">
+      <text class="balance-label">本月结余</text>
+      <text class="balance-value {{balance >= 0 ? 'income' : 'expense'}}">¥{{balance}}</text>
+    </view>
+    <view class="balance-row">
+      <view class="balance-item">
+        <text class="balance-item-label">收入</text>
+        <text class="balance-item-value income">¥{{income}}</text>
+      </view>
+      <view class="balance-divider"></view>
+      <view class="balance-item">
+        <text class="balance-item-label">支出</text>
+        <text class="balance-item-value expense">¥{{expense}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-row">
+    <view class="action-btn income-btn" bindtap="openAddModal" data-type="expense">
+      <text class="action-icon">➖</text>
+      <text class="action-text">记支出</text>
+    </view>
+    <view class="action-btn expense-btn" bindtap="openAddModal" data-type="income">
+      <text class="action-icon">➕</text>
+      <text class="action-text">记收入</text>
+    </view>
+  </view>
+
+  <view class="section-title">最近记录</view>
+  <view wx:if="{{transactions.length === 0}}" class="empty-tip">
+    <text>暂无记录，点击上方按钮开始记账</text>
+  </view>
+  <view wx:else class="transaction-list">
+    <view class="transaction-item" wx:for="{{transactions}}" wx:key="id">
+      <view class="transaction-icon {{item.categoryIcon}}">
+        <text>{{item.icon}}</text>
+      </view>
+      <view class="transaction-info">
+        <text class="transaction-note">{{item.note}}</text>
+        <text class="transaction-date">{{item.dateText}}</text>
+      </view>
+      <view class="transaction-amount {{item.type === 'income' ? 'income' : 'expense'}}">
+        {{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}
+      </view>
+      <view class="transaction-delete" bindtap="deleteTransaction" data-id="{{item.id}}">
+        <text>✕</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="modal {{showModal ? 'active' : ''}}" bindtap="closeAddModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">{{modalType === 'income' ? '记收入' : '记支出'}}</text>
+        <text class="modal-close" bindtap="closeAddModal">✕</text>
+      </view>
+      <view class="amount-input-wrap">
+        <text class="amount-prefix">¥</text>
+        <input class="amount-input" type="digit" placeholder="0.00" value="{{inputAmount}}" bindinput="onAmountInput" focus="{{showModal}}" />
+      </view>
+      <view class="category-grid">
+        <view class="category-item {{selectedCategory === item.value ? 'selected' : ''}}"
+              wx:for="{{categories}}" wx:key="value"
+              bindtap="selectCategory" data-value="{{item.value}}">
+          <view class="category-icon-wrap {{item.value}}">
+            <text class="category-emoji">{{item.icon}}</text>
+          </view>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+      </view>
+      <view class="note-input-wrap">
+        <input class="note-input" placeholder="添加备注（可选）" value="{{inputNote}}" bindinput="onNoteInput" />
+      </view>
+      <view class="confirm-btn {{modalType === 'income' ? 'income-bg' : 'expense-bg'}}" bindtap="confirmAdd">
+        <text>确认记账</text>
+      </view>
+    </view>
+  </view>
+</view>

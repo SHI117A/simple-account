@@ -1,0 +1,131 @@
+<view class="container">
+  <view class="overview-card">
+    <view class="overview-row">
+      <view class="overview-item">
+        <text class="overview-label">收入</text>
+        <text class="overview-value income">¥{{income}}</text>
+      </view>
+      <view class="overview-divider"></view>
+      <view class="overview-item">
+        <text class="overview-label">支出</text>
+        <text class="overview-value expense">¥{{expense}}</text>
+      </view>
+      <view class="overview-divider"></view>
+      <view class="overview-item">
+        <text class="overview-label">结余</text>
+        <text class="overview-value {{balance >= 0 ? 'income' : 'expense'}}">¥{{balance}}</text>
+      </view>
+    </view>
+    <view class="overview-count">
+      <text class="count-text">共 {{count}} 笔记录</text>
+    </view>
+  </view>
+
+  <view class="filter-bar">
+    <view class="filter-tabs">
+      <view class="filter-tab {{activeFilter === index ? 'active' : ''}}"
+            wx:for="{{filterTabs}}" wx:key="index"
+            bindtap="onFilterTap" data-index="{{index}}">
+        <text>{{item}}</text>
+      </view>
+      <view class="filter-tab {{activeFilter === 4 ? 'active' : ''}}"
+            bindtap="onFilterTap" data-index="{{4}}">
+        <text>自定义</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="custom-date-overlay {{showCustomDate ? 'show' : ''}}" bindtap="onCustomDateCancel" catchtouchmove>
+    <view class="custom-date-panel {{showCustomDate ? 'show' : ''}}" catchtap>
+      <view class="custom-date-header">
+        <text class="custom-date-title">自定义日期范围</text>
+      </view>
+      <view class="custom-date-body">
+        <view class="date-picker-row">
+          <text class="date-label">开始日期</text>
+          <picker mode="date" value="{{customStartDate}}" bindchange="onStart_dateChange">
+            <view class="date-value">{{customStartDate || '请选择'}}</view>
+          </picker>
+        </view>
+        <view class="date-picker-row">
+          <text class="date-label">结束日期</text>
+          <picker mode="date" value="{{customEndDate}}" bindchange="onEnd_dateChange">
+            <view class="date-value">{{customEndDate || '请选择'}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="custom-date-footer">
+        <view class="date-btn cancel" bindtap="onCustomDateCancel"><text>取消</text></view>
+        <view class="date-btn confirm" bindtap="onCustomDateConfirm"><text>确定</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="rank-tabs">
+      <view class="rank-tab {{rankTab === 'expense' ? 'active expense-active' : ''}}"
+            bindtap="onRankTabTap" data-type="expense">
+        <text>支出排行</text>
+      </view>
+      <view class="rank-tab {{rankTab === 'income' ? 'active income-active' : ''}}"
+            bindtap="onRankTabTap" data-type="income">
+        <text>收入排行</text>
+      </view>
+    </view>
+
+    <view wx:if="{{rankList.length === 0}}" class="empty-tip">
+      <text>该时段暂无{{rankTab === 'expense' ? '支出' : '收入'}}记录</text>
+    </view>
+    <view wx:else class="rank-list">
+      <view class="rank-item" wx:for="{{rankList}}" wx:key="key"
+            bindtap="onTapCategory"
+            data-key="{{item.key}}" data-name="{{item.name}}" data-type="{{rankTab}}">
+        <view class="rank-left">
+          <view class="rank-index" wx:if="{{index < 3}}">
+            <text class="rank-badge {{index === 0 ? 'gold' : index === 1 ? 'silver' : 'bronze'}}">{{index + 1}}</text>
+          </view>
+          <view class="rank-index" wx:else><text class="rank-num">{{index + 1}}</text></view>
+          <text class="rank-emoji">{{item.icon}}</text>
+          <text class="rank-name">{{item.name}}</text>
+        </view>
+        <view class="rank-right">
+          <text class="rank-amount {{rankTab === 'expense' ? 'expense-text' : 'income-text'}}">¥{{item.amount}}</text>
+          <view class="rank-bar-wrap">
+            <view class="rank-bar {{rankTab === 'income' ? 'income-bar' : ''}}" style="width: {{item.percent || 0}}%"></view>
+            <!-- %保留 -->
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="merchant-overlay {{showMerchant ? 'show' : ''}}" bindtap="hideMerchant" catchtouchmove>
+    <view class="merchant-panel {{showMerchant ? 'show' : ''}}" catchtap>
+      <view class="merchant-header">
+        <text class="merchant-title">{{merchantTitle}}</text>
+        <text class="merchant-total {{merchantType === 'income' || merchantType === 'bonus' || merchantType === 'salary' || merchantType === 'investment' || merchantType === 'other_income' || merchantType === 'red_packet_in' || merchantType === 'refund' ? 'income-text' : 'expense-text'}}">合计 ¥{{merchantTotal}} · {{merchantTotalCount}}笔</text>
+      </view>
+      <view class="merchant-table-header">
+        <text class="th-name">商户</text>
+        <text class="th-count">笔数</text>
+        <text class="th-amount">金额</text>
+        <text class="th-percent">占比</text>
+      </view>
+      <scroll-view scroll-y class="merchant-scroll">
+        <view class="merchant-item" wx:for="{{merchantList}}" wx:key="name">
+          <view class="merchant-item-left">
+            <text class="merchant-item-name">{{item.name}}</text>
+          </view>
+          <view class="merchant-item-right">
+            <text class="merchant-item-count">{{item.count}}笔</text>
+            <text class="merchant-item-amount {{merchantType === 'income' || merchantType === 'bonus' || merchantType === 'salary' || merchantType === 'investment' || merchantType === 'other_income' || merchantType === 'red_packet_in' || merchantType === 'refund' ? 'income-text' : 'expense-text'}}">¥{{item.amount}}</text>
+            <text class="merchant-item-percent">{{item.percent}}%</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="merchant-footer">
+        <text class="merchant-footer-text">点击空白处关闭</text>
+      </view>
+    </view>
+  </view>
+</view>

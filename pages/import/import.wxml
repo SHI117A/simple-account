@@ -1,0 +1,88 @@
+<!--pages/import/import.wxml-->
+<view class="container">
+  <view class="import-card" bindtap="importXLSX">
+    <view class="import-icon-wrap xlsx">
+      <text class="import-emoji">📊</text>
+    </view>
+    <view class="import-info">
+      <text class="import-title">导入 Excel 文件</text>
+      <text class="import-desc">支持微信账单导出的 XLSX 格式，自动解析工作表</text>
+    </view>
+    <text class="import-arrow">›</text>
+  </view>
+
+  <view class="import-card" bindtap="importCSV">
+    <view class="import-icon-wrap csv">
+      <text class="import-emoji">📄</text>
+    </view>
+    <view class="import-info">
+      <text class="import-title">导入 CSV 文件</text>
+      <text class="import-desc">支持微信账单导出的 CSV 格式，自动识别列结构</text>
+    </view>
+    <text class="import-arrow">›</text>
+  </view>
+
+  <view class="import-card" bindtap="importZIP">
+    <view class="import-icon-wrap zip">
+      <text class="import-emoji">📦</text>
+    </view>
+    <view class="import-info">
+      <text class="import-title">导入 ZIP 压缩包</text>
+      <text class="import-desc">自动识别包内的 XLSX 或 CSV 文件，无密码直接解压导入</text>
+    </view>
+    <text class="import-arrow">›</text>
+  </view>
+
+  <view class="tips-card">
+    <view class="tips-title">💡 导入说明</view>
+    <view class="tips-item">
+      <text class="tips-num">1</text>
+      <text class="tips-text">在微信中导出账单文件（我 → 服务 → 钱包 → 账单 → 常见问题 → 导出账单）</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-num">2</text>
+      <text class="tips-text">将导出的文件发送给「文件传输助手」或任意好友</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-num">3</text>
+      <text class="tips-text">点击上方按钮，从聊天记录中选择文件即可</text>
+    </view>
+    <view class="tips-item">
+      <text class="tips-num">4</text>
+      <text class="tips-text">ZIP 压缩包仅支持无密码格式；加密 ZIP 请先手动解压后再导入</text>
+    </view>
+  </view>
+</view>
+
+<view class="modal {{showImportModal ? 'active' : ''}}" bindtap="hideImportModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <text class="modal-title">导入选项</text>
+      <text class="modal-close" bindtap="hideImportModal">✕</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-desc">发现 {{pendingCount}} 条记录，请选择导入方式：</text>
+      <view class="import-options">
+        <view class="import-option {{importMode === 'append' ? 'selected' : ''}}" bindtap="selectImportMode" data-mode="append">
+          <text class="option-icon">➕</text>
+          <view class="option-info">
+            <text class="option-title">追加到现有数据</text>
+            <text class="option-desc">保留原有记录，新增导入的记录</text>
+          </view>
+        </view>
+        <view class="import-option {{importMode === 'replace' ? 'selected' : ''}}" bindtap="selectImportMode" data-mode="replace">
+          <text class="option-icon">🔄</text>
+          <view class="option-info">
+            <text class="option-title">替换现有数据</text>
+            <text class="option-desc">清空原有记录，只保留导入的记录</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="hideImportModal">取消</view>
+      <view class="modal-btn confirm" bindtap="confirmImport">确认导入</view>
+    </view>
+  </view>
+</view>
+

@@ -1,0 +1,57 @@
+.container { padding: 20rpx 30rpx; }
+
+.import-card {
+  display: flex; align-items: center; background: #fff;
+  border-radius: 24rpx; padding: 36rpx; margin-bottom: 24rpx; gap: 24rpx;
+}
+.import-icon-wrap {
+  width: 96rpx; height: 96rpx; border-radius: 20rpx;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.import-icon-wrap.csv { background: #dbeafe; }
+.import-icon-wrap.xlsx { background: #dcfce7; }
+.import-icon-wrap.zip { background: #fef3c7; }
+.import-emoji { font-size: 44rpx; }
+.import-info { flex: 1; display: flex; flex-direction: column; }
+.import-title { font-size: 30rpx; color: #333; font-weight: 600; margin-bottom: 8rpx; }
+.import-desc { font-size: 22rpx; color: #999; line-height: 1.5; }
+.import-arrow { font-size: 36rpx; color: #ccc; flex-shrink: 0; }
+
+.tips-card {
+  background: #fff; border-radius: 24rpx; padding: 36rpx; margin-top: 20rpx;
+}
+.tips-title { font-size: 28rpx; font-weight: 600; color: #333; margin-bottom: 24rpx; }
+.tips-item { display: flex; align-items: flex-start; gap: 16rpx; margin-bottom: 20rpx; }
+.tips-item:last-child { margin-bottom: 0; }
+.tips-num {
+  width: 40rpx; height: 40rpx; border-radius: 50%; background: #667eea; color: #fff;
+  font-size: 22rpx; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.tips-text { font-size: 24rpx; color: #666; line-height: 1.6; flex: 1; }
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+.modal.active { display: flex; }
+.modal-content { background: #fff; width: 600rpx; border-radius: 24rpx; overflow: hidden; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 30rpx 36rpx; border-bottom: 1rpx solid #f5f5f5; }
+.modal-title { font-size: 32rpx; font-weight: bold; color: #333; }
+.modal-close { font-size: 36rpx; color: #999; padding: 10rpx; }
+.modal-body { padding: 36rpx; }
+.modal-desc { font-size: 28rpx; color: #666; line-height: 1.6; }
+.modal-footer { display: flex; border-top: 1rpx solid #f5f5f5; }
+.modal-btn { flex: 1; padding: 28rpx 0; text-align: center; font-size: 30rpx; }
+.modal-btn.cancel { color: #666; border-right: 1rpx solid #f5f5f5; }
+.modal-btn.confirm { color: #667eea; font-weight: bold; }
+.import-options { display: flex; flex-direction: column; gap: 20rpx; margin-top: 24rpx; }
+.import-option { display: flex; align-items: center; gap: 20rpx; padding: 24rpx; border-radius: 16rpx; border: 2rpx solid #eee; }
+.import-option.selected { border-color: #667eea; background: #f5f3ff; }
+.option-icon { font-size: 36rpx; }
+.option-info { display: flex; flex-direction: column; }
+.option-title { font-size: 28rpx; color: #333; font-weight: 500; }
+.option-desc { font-size: 22rpx; color: #999; margin-top: 4rpx; }
+
+.password-input-wrap { margin-top: 24rpx; }
+.password-input {
+  width: 100%; padding: 20rpx 24rpx; border: 2rpx solid #e5e7eb;
+  border-radius: 16rpx; font-size: 28rpx; box-sizing: border-box;
+}
+.password-hint { display: block; margin-top: 16rpx; font-size: 22rpx; color: #f59e0b; line-height: 1.5; }
